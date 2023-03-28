@@ -41,3 +41,11 @@ Implemented navigation between "Games", "Create" and "Profile" screens with Bott
 ### :timer_clock: 16:55  
   
 Stopped working for now.
+
+### :timer_clock: 22:32  
+
+### Implementing the skeleton of creating a gaming session-functionality
+  
+* Implemented dropdown-lists for platforms and games, textinput for session description, button to publish session and put them together in Create-screen  
+  ![WhatsApp Image 2023-03-29 at 00 32 42](https://user-images.githubusercontent.com/90974678/228371717-49544cae-a7e3-41cc-ac20-3d508cd6639d.jpeg)
+
