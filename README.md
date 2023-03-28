@@ -33,4 +33,11 @@ Today I'm going to set up the development environment for the project and then s
 
 ### Implementing three views and navigation between them  
   
+Implemented navigation between "Games", "Create" and "Profile" screens with BottomTabNavigator  
+  
 ![Untitled design](https://user-images.githubusercontent.com/90974678/228248770-d159f8f9-b173-4e5c-b585-4acd29558763.png)
+
+
+### :timer_clock: 13:40  
+  
+Stopped working for now.
