@@ -48,4 +48,7 @@ Stopped working for now.
   
 * Created dropdown-lists for platforms and games, textinput for session description, button to publish session and put them together in Create-screen  
   ![WhatsApp Image 2023-03-29 at 00 32 42](https://user-images.githubusercontent.com/90974678/228371717-49544cae-a7e3-41cc-ac20-3d508cd6639d.jpeg)
-
+  
+### :timer_clock: 00:37  
+  
+Stopped working for now.
