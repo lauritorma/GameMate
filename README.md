@@ -21,6 +21,14 @@ Today I'm going to set up the development environment for the project and then s
   
 ### Setting up the development environment  
   
-I created a new local Expo-project 'GameMate' and set https://github.com/lauritorma/GameMate.git as the remote origin. First commit done.  
-  
+* Created a new local Expo-project 'GameMate' and set https://github.com/lauritorma/GameMate.git as the remote origin. First commit done.  
+* Installed Firebase to project 
+* Installed React navigation to project  
+* Created new app 'GameMate' in Firebase  
+* Set up new Firebase Realtime Database
+* Set up initial project structure and folders
+* Added Firebase configuration object to ```config/firebaseConfig.js```  
+* Added ```config/firebaseConfig.js``` to ```.gitignore```  
+
+
 
