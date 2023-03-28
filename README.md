@@ -2,7 +2,7 @@
 
 ## :date: 27.3.2023 | Project kick-off
 
-I started the GameMate project with a small prototyping session using Figma as a tool. I created prototypes for the application's login view, game sessions view, and user profile view.
+I started the GameMate project with a small prototyping session using Figma. I created prototypes for the application's login view, game sessions view, and user profile view.
   
 ### Login   
 ![image](https://user-images.githubusercontent.com/90974678/228212631-75fd22a6-8e3c-49da-b4bb-e3b9e8e57af0.png)  
