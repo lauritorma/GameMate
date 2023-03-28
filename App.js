@@ -1,15 +1,17 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import GameSessions from './components/GameSessions';
 
 const Tab = createBottomTabNavigator();
 
 function GameSessionsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.font}>Game sessions</Text>
+      <GameSessions></GameSessions>
     </View>
   );
 }
@@ -32,42 +34,46 @@ function ProfileScreen() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-      
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName;
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Tab.Navigator
 
-            if (route.name === 'Games') {
-              iconName = 'gamepad';
-            } else if (route.name === 'Create') {
-              iconName = 'plus-square';
-            } else if (route.name === 'Profile') {
-              iconName = 'house-user';
-            }
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ color, size }) => {
+              let iconName;
 
-            return <FontAwesome5 name={iconName} size={size} color={color} />;
-          },
+              if (route.name === 'Games') {
+                iconName = 'gamepad';
+              } else if (route.name === 'Create') {
+                iconName = 'plus-square';
+              } else if (route.name === 'Profile') {
+                iconName = 'house-user';
+              }
 
-          tabBarActiveTintColor: '#0088B4',
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: { ...styles.tabBarStyle },
-          headerStyle: {
-            backgroundColor: '#0088B4',
-            height: '6%',
-          },
-          headerTitleStyle: {
-            color: '#0088B4',
-          }
-          
-        })}
-      >
-        <Tab.Screen name="Games" component={GameSessionsScreen} />
-        <Tab.Screen name="Create" component={CreateSessionScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+              return <FontAwesome5 name={iconName} size={size} color={color} />;
+            },
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+            tabBarActiveTintColor: '#0088B4',
+            tabBarInactiveTintColor: 'gray',
+            tabBarStyle: { ...styles.tabBarStyle },
+            headerStyle: {
+              backgroundColor: '#0088B4',
+              height: '6%',
+            },
+            headerTitleStyle: {
+              color: '#0088B4',
+            },
+          })}
+
+
+        >
+          <Tab.Screen name="Games" component={GameSessionsScreen} />
+          <Tab.Screen name="Create" component={CreateSessionScreen} />
+          <Tab.Screen name="Profile" component={ProfileScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
@@ -77,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
-    
+
   },
 
   font: {
