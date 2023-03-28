@@ -5,6 +5,7 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GameSessions from './components/GameSessions';
+import CreateSession from './components/CreateSession';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ function GameSessionsScreen() {
 function CreateSessionScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.font}>Here you create sessions</Text>
+      <CreateSession></CreateSession>
     </View>
   );
 }
