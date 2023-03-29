@@ -2,51 +2,44 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 
-export default function Platforms() {
+export default function Platforms(props) {
 
-    const Dropdown = () => {
+    const [selected, setSelected] = useState("");
 
-        const [selected, setSelected] = useState("");
+    const handleSelect = (value) => {
+        setSelected(value);
+        props.setSelectedPlatform(value);
+      };
 
-        const data = [
-            { key: '1', value: 'Playstation 5' },
-            { key: '2', value: 'Playstation 4' },
-            { key: '3', value: 'Xbox Series X/S' },
-            { key: '4', value: 'Xbox One'},
-            { key: '5', value: 'Nintendo Switch' },
-            { key: '6', value: 'PC' },
-            { key: '7', value: 'Other' },
-        ]
-        return (
-            <View >
+    const data = [
+        { key: '1', value: 'Playstation 5' },
+        { key: '2', value: 'Playstation 4' },
+        { key: '3', value: 'Xbox Series X/S' },
+        { key: '4', value: 'Xbox One' },
+        { key: '5', value: 'Nintendo Switch' },
+        { key: '6', value: 'PC' },
+        { key: '7', value: 'Other' },
+    ]
+
+    return (
+        <View >
+            <Text style={styles.font}>Platform</Text>
             <SelectList
-                setSelected={(val) => setSelected(val)}
+                setSelected={handleSelect}
                 data={data}
                 save="value"
-                dropdownItemStyles={{backgroundColor: 'white'}}
+                dropdownItemStyles={{ backgroundColor: 'white' }}
                 dropdownStyles={styles.dropdownContent}
                 textStyle={styles.dropdownText}
-                placeholder="Select game"
-                boxStyles={{backgroundColor: 'white'}}
-                
-                
-                
-                
-                
-                
+                placeholder="Select platform"
+                boxStyles={{ backgroundColor: 'white' }}
             />
-            </View>
-        );
-    }
-
-    return(
-        <View>
-            <Text style={styles.font}>Platform</Text>
-            <Dropdown></Dropdown>
         </View>
-    )
+    );
 
 };
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -61,7 +54,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         justifyContent: 'center',
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 20
     },
 
@@ -84,18 +77,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 4,
-        backgroundColor: 'white', 
-        width: 200, 
+        backgroundColor: 'white',
+        width: 200,
     },
 
     dropdownText: {
         fontSize: 16,
         color: '#333',
-      },
-    
+    },
+
     input: {
         color: 'black',
         backgroundColor: 'white',
-        
+
     },
 });

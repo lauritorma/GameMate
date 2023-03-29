@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import CreateSession from './CreateSession';
 
 export default function GameSessions() {
+
+
     return(
         <View>
-            <Text style={styles.font}>Terrrve</Text>
+            <Text style={styles.font}>Here will be gamelist</Text>
+            
         </View>
     );
 }

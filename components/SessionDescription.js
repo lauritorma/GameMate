@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, Button,  KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TextInput } from 'react-native';
 
-export default function SessionDescription() {
+export default function SessionDescription(props) {
 
     const [description, setDescription] = useState("");
+
     
     return(
         <View>
@@ -14,13 +14,8 @@ export default function SessionDescription() {
             multiline={true}
             maxLength={100}
             numberOfLines={4}
-            onChangeText={setDescription}
+            onChangeText={props.setGameDescription}
             ></TextInput>
-            <Button
-            title= 'publish'
-            color='#0088B4'
-            
-            ></Button>
         </View>
     );
 }
@@ -41,7 +36,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5,
         borderRadius: 10,
-        marginBottom: 80
+        marginBottom: 30
 
     },
 
@@ -49,7 +44,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         justifyContent: 'center',
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 20,
         marginTop: 20
     },

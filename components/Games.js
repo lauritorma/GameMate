@@ -2,47 +2,44 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 
-export default function Games() {
+export default function Games(props) {
 
-    const Dropdown = () => {
+    const [selected, setSelected] = useState("");
 
-        const [selected, setSelected] = useState("");
+    const handleSelect = (value) => {
+        setSelected(value);
+        props.setSelectedGame(value);
+      };
 
-        const data = [
-            { key: '1', value: 'Call of Duty' },
-            { key: '2', value: 'Minecraft' },
-            { key: '3', value: 'NHL23' },
-            { key: '4', value: 'Overwatch'},
-            { key: '5', value: 'Doom' },
-            { key: '6', value: 'Monopoly' },
-            { key: '7', value: 'Tetris' },
-        ]
-        return (
-            <View >
+
+    const data = [
+        { key: '1', value: 'Call of Duty' },
+        { key: '2', value: 'Minecraft' },
+        { key: '3', value: 'NHL23' },
+        { key: '4', value: 'Overwatch' },
+        { key: '5', value: 'Doom' },
+        { key: '6', value: 'Monopoly' },
+        { key: '7', value: 'Tetris' },
+    ]
+    return (
+        <View>
+            <Text style={styles.font}>Game</Text>
             <SelectList
-                setSelected={(val) => setSelected(val)}
+                setSelected={handleSelect}
                 data={data}
                 save="value"
                 style={styles.dropdown}
-                dropdownItemStyles={{backgroundColor: 'white'}}
+                dropdownItemStyles={{ backgroundColor: 'white' }}
                 dropdownStyles={styles.dropdownContent}
                 textStyle={styles.dropdownText}
                 inputStyles={styles.input}
                 placeholder="Select game"
-                boxStyles={{backgroundColor: 'white'}}
-                
-                
-            />
-            </View>
-        );
-    }
+                boxStyles={{ backgroundColor: 'white' }}
 
-    return(
-        <View>
-            <Text style={styles.font}>Game</Text>
-            <Dropdown></Dropdown>
+
+            />
         </View>
-    )
+    );
 
 };
 
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         justifyContent: 'center',
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 20,
         marginTop: 20
     },
@@ -83,15 +80,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 4,
-        backgroundColor: 'white', 
-        width: 200, 
+        backgroundColor: 'white',
+        width: 200,
     },
 
     dropdownText: {
         fontSize: 16,
         color: '#333',
-      },
-    
+    },
+
     input: {
         color: 'black'
     },
