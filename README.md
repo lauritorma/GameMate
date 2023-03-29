@@ -51,4 +51,18 @@ Stopped working for now.
   
 ### :timer_clock: 00:37  
   
-Stopped working for now.
+Stopped working for now.  
+
+
+## :date: 29.3.2023 | Continue session creation  
+  
+### :timer_clock: 18:05  
+
+* Continued to work on the game session creation view  
+* Selected platform, game and description values are now set to variable states in CreateSession.js  
+  
+### :timer_clock: 20:33  
+  
+Commiting changes and stopping for now  
+  
+
