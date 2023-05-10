@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CreateSession from './CreateSession';
+import { getDatabase, ref } from 'firebase/database';
 
 export default function GameSessions() {
 
+  const getGameSessions = () => {
+    
+  }
 
     return(
         <View>
