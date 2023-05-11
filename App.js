@@ -69,7 +69,7 @@ export default function App() {
 
 
         >
-          
+
           <Tab.Screen name="Games" component={GameSessionsScreen} />
           <Tab.Screen name="Create" component={CreateSessionScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />

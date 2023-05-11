@@ -9,7 +9,7 @@ export default function Games(props) {
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedGame(value);
-      };
+    };
 
 
     const data = [
@@ -54,11 +54,13 @@ const styles = StyleSheet.create({
 
     font: {
         color: 'white',
-        textAlign: 'center',
-        justifyContent: 'center',
+        margin: 20,
         fontSize: 18,
-        marginBottom: 20,
-        marginTop: 20
+        textAlign: 'center',
+        fontWeight: 'bold',
+        borderRadius: 5,
+        width: 150,
+        padding: 5
     },
 
     selectList: {

@@ -9,7 +9,7 @@ export default function Platforms(props) {
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedPlatform(value);
-      };
+    };
 
     const data = [
         { key: '1', value: 'Playstation 5' },
@@ -52,10 +52,13 @@ const styles = StyleSheet.create({
 
     font: {
         color: 'white',
-        textAlign: 'center',
-        justifyContent: 'center',
+        margin: 20,
         fontSize: 18,
-        marginBottom: 20
+        textAlign: 'center',
+        fontWeight: 'bold',
+        borderRadius: 5,
+        width: 150,
+        padding: 5
     },
 
     selectList: {
