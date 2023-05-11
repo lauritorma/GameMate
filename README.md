@@ -66,4 +66,23 @@ Stopped working for now.
   
 Commiting changes and stopping for now  
   
+##  :date: 11.5.2023 | Implementing firebase and GameSession list  
+   
+### :timer_clock: 14:05  
+After a long break I started to work on this project again.  
+  
+* Created connection to firebase realtime database
+* Implemented game session list that fetches gamesessions from database and shows them on GameSession page  
+* Implemented blacklist filtering that prevents users from adding bad words to game description
+* Added alert when button is clicked in CreateSession page
+  
+![image](https://github.com/lauritorma/GameMate/assets/90974678/43d0a39d-468c-4c65-b34d-4ee26b4724b6)
+  
+![image](https://github.com/lauritorma/GameMate/assets/90974678/2a0bb2b6-d9ba-41cf-91e0-4da7590efd9a)
+
+![image](https://github.com/lauritorma/GameMate/assets/90974678/9addfa08-4491-4190-b27a-c1bd214920b8)
+  
+![image](https://github.com/lauritorma/GameMate/assets/90974678/ba655da0-fd7f-4637-ab1c-89b22569b3d6)
+
+  
 
