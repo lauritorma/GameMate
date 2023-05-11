@@ -6,7 +6,7 @@ import SessionDescription from './SessionDescription';
 import { getDatabase, push, ref, set, onValue, serverTimestamp } from 'firebase/database';
 import firebaseConfig from '../config/firebaseconfig';
 import { initializeApp } from "firebase/app";
-import blacklist from '../blacklist';
+import blacklist from '../badWordFiltering/blacklist';
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
