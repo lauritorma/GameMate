@@ -18,7 +18,8 @@ export default function Platforms(props) {
         { key: '4', value: 'Xbox One' },
         { key: '5', value: 'Nintendo Switch' },
         { key: '6', value: 'PC' },
-        { key: '7', value: 'Other' },
+        { key: '7', value: 'Mobile' },
+        { key: '8', value: 'Other' },
     ]
 
     return (

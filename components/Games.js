@@ -13,13 +13,13 @@ export default function Games(props) {
 
 
     const data = [
-        { key: '1', value: 'Call of Duty' },
+        { key: '1', value: 'Call of Duty: Warzone 2.0' },
         { key: '2', value: 'Minecraft' },
         { key: '3', value: 'NHL23' },
-        { key: '4', value: 'Overwatch' },
-        { key: '5', value: 'Doom' },
-        { key: '6', value: 'Monopoly' },
-        { key: '7', value: 'Tetris' },
+        { key: '4', value: 'Overwatch 2' },
+        { key: '5', value: 'Apex Legends' },
+        { key: '6', value: 'CS: GO' },
+        { key: '7', value: 'Among Us' },
     ]
     return (
         <View>

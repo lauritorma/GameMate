@@ -7,6 +7,7 @@ import { getDatabase, push, ref, set, onValue, serverTimestamp } from 'firebase/
 import firebaseConfig from '../config/firebaseconfig';
 import { initializeApp } from "firebase/app";
 import blacklist from '../badWordFiltering/blacklist';
+import { TextInput } from 'react-native-gesture-handler';
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -15,24 +16,34 @@ export default function CreateSession() {
     const [selectedPlatform, setSelectedPlatform] = useState('');
     const [selectedGame, setSelectedGame] = useState('');
     const [gameDescription, setGameDescription] = useState('');
+    const [username, setUsername] = useState('');
     const scaleValue = useRef(new Animated.Value(1)).current;
 
     const handleButtonPress = () => {
         const timestamp = new Date().toLocaleString();
 
-        if (selectedPlatform === '' || selectedGame === '' || gameDescription === '') {
+        if (selectedPlatform === '' || selectedGame === '' || gameDescription === '' || username === '') {
             Alert.alert('Please fill all fields');
         } else if (filterText(gameDescription)) {
             Alert.alert('Warning', 'Your description contains blacklisted words.');
+        }else if (filterText(username)) {
+            Alert.alert('Warning', 'Your username contains blacklisted words.');
         } else {
             push(
                 ref(database, 'gamesessions/'),
-                { 'selectedPlatform': selectedPlatform, 'selectedGame': selectedGame, 'gameDescription': gameDescription, timestamp: timestamp }
+                {
+                    'selectedPlatform': selectedPlatform,
+                    'selectedGame': selectedGame,
+                    'gameDescription': gameDescription,
+                     timestamp: timestamp,
+                    'username': username
+                }
             );
 
             setSelectedPlatform('');
             setSelectedGame('');
             setGameDescription('');
+            setUsername('');
             Alert.alert('\n       Game Session created! 🥳');
         }
     };
@@ -71,6 +82,12 @@ export default function CreateSession() {
                 <Games selectedGame={selectedGame} setSelectedGame={setSelectedGame} />
                 <Platforms selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} />
                 <SessionDescription gameDescription={gameDescription} setGameDescription={setGameDescription} />
+                <TextInput
+                 style={styles.textInput}
+                 placeholder='Username'
+                 maxLength={50}
+                 onChangeText={setUsername}
+                ></TextInput>
                 <Animated.View style={[styles.buttonContainer, { transform: [{ scale: scaleValue }] }]}>
                     <Button
                         onPress={() => {
@@ -96,7 +113,15 @@ const styles = StyleSheet.create({
 
     font: {
         color: 'white',
+        margin: 20,
+        fontSize: 18,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        borderRadius: 5,
+        width: 150,
+        padding: 5
     },
+
 
     pageHeader: {
         color: 'white',
@@ -114,6 +139,17 @@ const styles = StyleSheet.create({
         padding: 10,
         textAlign: 'center',
         alignItems: 'center',
+        margin: 20
+    },
+
+    textInput: {
+        backgroundColor: 'white',
+        width: 210,
+        textAlign: 'center',
+        padding: 5,
+        borderRadius: 10,
+        marginBottom: 30
+
     },
 
     selectList: {

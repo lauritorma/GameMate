@@ -8,9 +8,9 @@ export default function SessionDescription(props) {
 
     return (
         <View>
-            <Text style={styles.font}>Description</Text>
             <TextInput
                 style={styles.textInput}
+                placeholder='Session Description'
                 multiline={true}
                 maxLength={100}
                 numberOfLines={4}
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5,
         borderRadius: 10,
-        marginBottom: 30
+        marginBottom: 30,
+        marginTop: 20
 
     },
 
