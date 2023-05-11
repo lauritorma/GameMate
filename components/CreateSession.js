@@ -6,6 +6,7 @@ import SessionDescription from './SessionDescription';
 import { getDatabase, push, ref, set, onValue, serverTimestamp } from 'firebase/database';
 import firebaseConfig from '../config/firebaseconfig';
 import { initializeApp } from "firebase/app";
+import blacklist from '../blacklist';
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -16,18 +17,14 @@ export default function CreateSession() {
     const [gameDescription, setGameDescription] = useState('');
     const scaleValue = useRef(new Animated.Value(1)).current;
 
-    // Add new entry to database table 'gamesessions/'
-
     const handleButtonPress = () => {
         const timestamp = new Date().toLocaleString();
 
-        // Alert if all fields aren't filled
-
-        if (selectedPlatform == "" || selectedGame == "" || gameDescription == "") {
+        if (selectedPlatform === '' || selectedGame === '' || gameDescription === '') {
             Alert.alert('Please fill all fields');
-        }
-
-        else {
+        } else if (filterText(gameDescription)) {
+            Alert.alert('Warning', 'Your description contains blacklisted words.');
+        } else {
             push(
                 ref(database, 'gamesessions/'),
                 { 'selectedPlatform': selectedPlatform, 'selectedGame': selectedGame, 'gameDescription': gameDescription, timestamp: timestamp }
@@ -40,7 +37,17 @@ export default function CreateSession() {
         }
     };
 
-    // Animation when button is pressed
+    const filterText = (text) => {
+        for (let i = 0; i < blacklist.length; i++) {
+            const word = blacklist[i];
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+
+            if (regex.test(text)) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     const startButtonAnimation = () => {
         Animated.sequence([
