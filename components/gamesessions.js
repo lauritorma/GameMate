@@ -38,20 +38,10 @@ export default function GameSessions() {
     (session) =>
       (!selectedGame || session.selectedGame === selectedGame) &&
       (!selectedPlatform || session.selectedPlatform === selectedPlatform)
+      
   );
 
-  const listSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "80%",
-          backgroundColor: "white",
-          marginLeft: "10%"
-        }}
-      />
-    );
-  };
+  
   
   return (
     <SafeAreaView style={styles.container} >

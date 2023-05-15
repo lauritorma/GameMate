@@ -4,9 +4,9 @@ import Platforms from './Platforms';
 import Games from './Games';
 import SessionDescription from './SessionDescription';
 import { getDatabase, push, ref, set, onValue, serverTimestamp } from 'firebase/database';
-import firebaseConfig from '../config/firebaseconfig';
+import firebaseConfig from './firebaseconfig';
 import { initializeApp } from "firebase/app";
-import blacklist from '../badWordFiltering/blacklist';
+import blacklist from './blacklist';
 import { TextInput } from 'react-native-gesture-handler';
 
 const app = initializeApp(firebaseConfig);
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     pageHeader: {
         color: 'white',
         fontSize: 25,
-        marginBottom: 20,
+        marginBottom: 0,
         marginTop: 40,
         textAlign: 'center',
         fontWeight: 'bold',
@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
 
     textInput: {
         backgroundColor: 'white',
-        width: 210,
+        width: 165,
         textAlign: 'center',
         padding: 5,
         borderRadius: 10,
-        marginBottom: 30
+        marginBottom: 30,
 
     },
 
@@ -159,5 +159,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         borderRadius: 5,
         overflow: 'hidden',
+        margin: 10
     },
 });

@@ -22,7 +22,7 @@ export default function Games(props) {
         { key: '7', value: 'Among Us' },
     ]
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.font}>Game</Text>
             <SelectList
                 setSelected={handleSelect}
@@ -45,16 +45,19 @@ export default function Games(props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.8,
-        justifyContent: 'center',
+        borderWidth: 0,
+        borderColor: '#0088B4',
         alignItems: 'center',
-        backgroundColor: 'white',
-        width: 1000,
+        padding: 10,
+        borderRadius: 5,
+        textAlign: 'center',
+        backgroundColor: 'black',
+        width: 250
     },
 
     font: {
-        color: 'white',
-        margin: 20,
+        color: '#0088B4',
+        marginBottom: 10,
         fontSize: 18,
         textAlign: 'center',
         fontWeight: 'bold',

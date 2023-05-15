@@ -6,6 +6,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GameSessions from './components/GameSessions';
 import CreateSession from './components/CreateSession';
+import NewsFeed from './components/NewsFeed';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,10 +26,10 @@ function CreateSessionScreen() {
   );
 }
 
-function ProfileScreen() {
+function NewsFeedScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.font}>Here is your profile</Text>
+      <NewsFeed></NewsFeed>
     </View>
   );
 }
@@ -47,8 +48,8 @@ export default function App() {
                 iconName = 'gamepad';
               } else if (route.name === 'Create') {
                 iconName = 'plus-square';
-              } else if (route.name === 'Profile') {
-                iconName = 'house-user';
+              } else if (route.name === 'News') {
+                iconName = 'newspaper';
               }
 
               return <FontAwesome5 name={iconName} size={size} color={color} />;
@@ -72,7 +73,7 @@ export default function App() {
 
           <Tab.Screen name="Games" component={GameSessionsScreen} />
           <Tab.Screen name="Create" component={CreateSessionScreen} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
+          <Tab.Screen name="News" component={NewsFeedScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

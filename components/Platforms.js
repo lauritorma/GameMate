@@ -23,7 +23,7 @@ export default function Platforms(props) {
     ]
 
     return (
-        <View >
+        <View style={styles.container} >
             <Text style={styles.font}>Platform</Text>
             <SelectList
                 setSelected={handleSelect}
@@ -44,15 +44,20 @@ export default function Platforms(props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.8,
-        justifyContent: 'center',
+        borderWidth: 0,
+        borderColor: '#0088B4',
         alignItems: 'center',
-        backgroundColor: 'white',
-        width: 1000,
+        padding: 10,
+        borderRadius: 5,
+        textAlign: 'center',
+        backgroundColor: 'black',
+        width: 250,
+        marginTop: 0
     },
 
+
     font: {
-        color: 'white',
+        color: '#0088B4',
         margin: 20,
         fontSize: 18,
         textAlign: 'center',

@@ -7,7 +7,7 @@ export default function SessionDescription(props) {
 
 
     return (
-        <View>
+        <View style={styles.container}>
             <TextInput
                 style={styles.textInput}
                 placeholder='Session Description'
@@ -22,17 +22,20 @@ export default function SessionDescription(props) {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 20,
-        justifyContent: 'center',
+        borderWidth: 0,
+        borderColor: '#0088B4',
         alignItems: 'center',
-        backgroundColor: 'white',
-
-
+        padding: 15,
+        borderRadius: 5,
+        textAlign: 'center',
+        backgroundColor: 'black',
+        width: 10,
+        height: 150
     },
 
     textInput: {
         backgroundColor: 'white',
-        width: 210,
+        width: 165,
         textAlign: 'center',
         padding: 5,
         borderRadius: 10,
