@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button, KeyboardAvoidingView, Alert, Animated }
 import Platforms from './Platforms';
 import Games from './Games';
 import SessionDescription from './SessionDescription';
-import { getDatabase, push, ref} from 'firebase/database';
+import { getDatabase, push, ref } from 'firebase/database';
 import firebaseConfig from './firebaseconfig';
 import { initializeApp } from "firebase/app";
 import blacklist from './blacklist';
@@ -66,6 +66,20 @@ export default function CreateSession() {
         return false;
     };
 
+    const startButtonAnimation = () => {
+        Animated.sequence([
+            Animated.timing(scaleValue, {
+                toValue: 0.8,
+                duration: 100,
+                useNativeDriver: true,
+            }),
+            Animated.timing(scaleValue, {
+                toValue: 1,
+                duration: 100,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="position">
@@ -83,6 +97,7 @@ export default function CreateSession() {
                 <Animated.View style={[styles.buttonContainer, { transform: [{ scale: scaleValue }] }]}>
                     <Button
                         onPress={() => {
+                            startButtonAnimation();
                             handleButtonPress();
                         }}
                         title='create'
