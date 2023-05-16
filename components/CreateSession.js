@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button, KeyboardAvoidingView, Alert, Animated }
 import Platforms from './Platforms';
 import Games from './Games';
 import SessionDescription from './SessionDescription';
-import { getDatabase, push, ref, set, onValue, serverTimestamp } from 'firebase/database';
+import { getDatabase, push, ref} from 'firebase/database';
 import firebaseConfig from './firebaseconfig';
 import { initializeApp } from "firebase/app";
 import blacklist from './blacklist';

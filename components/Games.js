@@ -6,11 +6,14 @@ export default function Games(props) {
 
     const [selected, setSelected] = useState("");
 
+     // Set selected state to game that user has selected
+
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedGame(value);
     };
 
+    // Games available
 
     const data = [
         { key: '1', value: 'Call of Duty: Warzone 2.0' },

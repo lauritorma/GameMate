@@ -1,0 +1,5 @@
+# Config files
+!components/firebaseconfig.js
+
+# Blacklist file
+!components/blacklist.js

@@ -7,6 +7,8 @@ const NewsFeed = () => {
     const [newsData, setNewsData] = useState(null);
     const [showDescription, setShowDescription] = useState({});
 
+    // Call fetch data when component is loaded 
+    
     useEffect(() => {
         fetchData();
     }, []);
@@ -44,10 +46,10 @@ const NewsFeed = () => {
             [title]: !prevState[title]
         }));
     };
-    
+
 
     // Open link to article 
-    
+
     const openLink = (url) => {
         Linking.openURL(url);
     };
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         textAlign: 'center',
         fontWeight: 'bold'
-      },
+    },
 
     newsItemContainer: {
         marginBottom: 20,
@@ -146,14 +148,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
 
-        
+
     },
 
     newsDate: {
         color: 'white',
         marginBottom: 10,
         fontSize: 12
-        
+
     },
 
     newsDescription: {
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
         marginBottom: 10,
-        
+
     },
     button: {
         backgroundColor: 'blue',

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 
 export default function SessionDescription(props) {
-
-    const [description, setDescription] = useState("");
-
 
     return (
         <View style={styles.container}>

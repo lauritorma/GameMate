@@ -6,10 +6,14 @@ export default function Platforms(props) {
 
     const [selected, setSelected] = useState("");
 
+    // Set selected state to platform that user has selected
+    
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedPlatform(value);
     };
+
+    // Platforms available 
 
     const data = [
         { key: '1', value: 'Playstation 5' },
