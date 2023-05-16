@@ -9,6 +9,8 @@ import { initializeApp } from "firebase/app";
 import blacklist from './blacklist';
 import { TextInput } from 'react-native-gesture-handler';
 
+// Initialize firebase 
+
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
@@ -19,6 +21,8 @@ export default function CreateSession() {
     const [username, setUsername] = useState('');
     const scaleValue = useRef(new Animated.Value(1)).current;
 
+    // Handle button press and push gamesession to database
+
     const handleButtonPress = () => {
         const timestamp = new Date().toLocaleString();
 
@@ -26,7 +30,7 @@ export default function CreateSession() {
             Alert.alert('Please fill all fields');
         } else if (filterText(gameDescription)) {
             Alert.alert('Warning', 'Your description contains blacklisted words.');
-        }else if (filterText(username)) {
+        } else if (filterText(username)) {
             Alert.alert('Warning', 'Your username contains blacklisted words.');
         } else {
             push(
@@ -35,7 +39,7 @@ export default function CreateSession() {
                     'selectedPlatform': selectedPlatform,
                     'selectedGame': selectedGame,
                     'gameDescription': gameDescription,
-                     timestamp: timestamp,
+                    timestamp: timestamp,
                     'username': username
                 }
             );
@@ -47,6 +51,8 @@ export default function CreateSession() {
             Alert.alert('\n       Game Session created! 🥳');
         }
     };
+
+    // Filter text for blacklisted words
 
     const filterText = (text) => {
         for (let i = 0; i < blacklist.length; i++) {
@@ -60,20 +66,6 @@ export default function CreateSession() {
         return false;
     };
 
-    const startButtonAnimation = () => {
-        Animated.sequence([
-            Animated.timing(scaleValue, {
-                toValue: 0.8,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleValue, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    };
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="position">
@@ -83,15 +75,14 @@ export default function CreateSession() {
                 <Platforms selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} />
                 <SessionDescription gameDescription={gameDescription} setGameDescription={setGameDescription} />
                 <TextInput
-                 style={styles.textInput}
-                 placeholder='Username'
-                 maxLength={50}
-                 onChangeText={setUsername}
+                    style={styles.textInput}
+                    placeholder='Username'
+                    maxLength={50}
+                    onChangeText={setUsername}
                 ></TextInput>
                 <Animated.View style={[styles.buttonContainer, { transform: [{ scale: scaleValue }] }]}>
                     <Button
                         onPress={() => {
-                            startButtonAnimation();
                             handleButtonPress();
                         }}
                         title='create'

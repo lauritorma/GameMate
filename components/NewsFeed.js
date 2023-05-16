@@ -11,6 +11,8 @@ const NewsFeed = () => {
         fetchData();
     }, []);
 
+    // Fetch news data from API
+
     const fetchData = async () => {
         try {
             const options = {
@@ -34,16 +36,23 @@ const NewsFeed = () => {
         }
     };
 
+    // Set description to show or hidden
+
     const toggleDescription = (title) => {
         setShowDescription((prevState) => ({
             ...prevState,
             [title]: !prevState[title]
         }));
     };
+    
 
+    // Open link to article 
+    
     const openLink = (url) => {
         Linking.openURL(url);
     };
+
+    // Format date 
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
