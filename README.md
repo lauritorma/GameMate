@@ -1,4 +1,32 @@
 # GameMate
+  
+## Project dependencies  
+  
+```
+ "dependencies": {
+    "@react-native-firebase/app": "^17.5.0",
+    "@react-native-firebase/auth": "^17.5.0",
+    "@react-native-picker/picker": "^2.4.10",
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/native": "^6.1.6",
+    "axios": "^1.4.0",
+    "expo": "~48.0.15",
+    "expo-status-bar": "~1.4.4",
+    "firebase": "^9.20.0",
+    "react": "18.2.0",
+    "react-native": "0.71.7",
+    "react-native-dropdown-select": "^1.0.7",
+    "react-native-dropdown-select-list": "^2.0.4",
+    "react-native-gesture-handler": "^2.9.0",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "expo-splash-screen": "~0.18.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+```  
+  
 
 ## :date: 27.3.2023 | Project kick-off
 
