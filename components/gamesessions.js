@@ -1,48 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity  } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Notifications from 'expo-notifications';
 
-export default function GameSessions() {
+export default function GameSessions({ games, platforms }) {
   const [gameSessions, setGameSessions] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedPlatform, setSelectedPlatform] = useState(null);
   const [showPickers, setShowPickers] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
 
+  const sendNotification = async () => {
+    const permission = await Notifications.requestPermissionsAsync();
+    if (!permission.granted) return;
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "New game session 🎮",
+        body: 'A new game session has been created!',
+      },
+      trigger: null,
+    });
+  }
 
   useEffect(() => {
+    let previousGameSessions = [...gameSessions];
     const database = getDatabase();
     const gameSessionsRef = ref(database, 'gamesessions/');
 
-    const fetchGameSessions = (snapshot) => {
+    onValue(gameSessionsRef, (snapshot) => {
       if (snapshot.exists()) {
         const sessionsData = snapshot.val();
         const sessionsArray = Object.values(sessionsData);
+        if (sessionsArray.length > previousGameSessions.length) {
+          sendNotification();
+        }
+        previousGameSessions = sessionsArray;
         setGameSessions(sessionsArray.reverse());
-      } else {
-        setGameSessions([]);
       }
-    };
+    });
 
-    onValue(gameSessionsRef, fetchGameSessions);
-
-    // Clean up the event listener
-    return () => {
-      // Detach the event listener when the component unmounts
-      off(gameSessionsRef, 'value', fetchGameSessions);
-    };
+    return () => off(gameSessionsRef);
   }, []);
 
   const filteredGameSessions = gameSessions.filter(
     (session) =>
       (!selectedGame || session.selectedGame === selectedGame) &&
       (!selectedPlatform || session.selectedPlatform === selectedPlatform)
-      
+
   );
 
-  
-  
+
+
   return (
     <SafeAreaView style={styles.container} >
       <Text style={styles.pageHeader}>Game 🎮 Mate</Text>
@@ -61,13 +72,7 @@ export default function GameSessions() {
             onValueChange={(itemValue) => setSelectedGame(itemValue)}
           >
             <Picker.Item label='All Games' value={null} />
-            <Picker.Item label='Call of Duty: Warzone 2.0' value='Call of Duty: Warzone 2.0' />
-            <Picker.Item label='Minecraft' value='Minecraft' />
-            <Picker.Item label='NHL23' value='NHL23' />
-            <Picker.Item label='Overwatch 2' value='Overwatch 2' />
-            <Picker.Item label='Apex Legends' value='Apex Legends' />
-            <Picker.Item label='CS: GO' value='CS: GO' />
-            <Picker.Item label='Among Us' value='Among Us' />
+            {games && games.map((game, index) => <Picker.Item key={index} label={game} value={game} />)}
           </Picker>
           <View style={styles.divider}></View>
           <Picker
@@ -76,36 +81,35 @@ export default function GameSessions() {
             onValueChange={(itemValue) => setSelectedPlatform(itemValue)}
           >
             <Picker.Item label='All Platforms' value={null} />
-            <Picker.Item label='Playstation 5' value='Playstation 5' />
-            <Picker.Item label='Playstation 4' value='Playstation 4' />
-            <Picker.Item label='Xbox Series X/S' value='Xbox Series X/S' />
-            <Picker.Item label='Xbox One' value='Xbox One' />
-            <Picker.Item label='Nintendo Switch' value='Nintendo Switch' />
-            <Picker.Item label='PC' value='PC' />
-            <Picker.Item label='Mobile' value='Mobile' />
-            <Picker.Item label='Other' value='Other' />
+            {platforms && platforms.map((platform, index) => <Picker.Item key={index} label={platform} value={platform} />)}
           </Picker>
         </View>
       )}
 
       <ScrollView>
         {filteredGameSessions.map((session, index) => (
-          <View key={index} style={styles.gameEntry}>
-            <View style={styles.info}>
-            <Text style={styles.timestamp}>{session.timestamp}</Text>
-            <Text style={styles.username}>{session.username}</Text>
-            </View>
-            <Text style={styles.gameHeader}>Game</Text>
-            <Text style={styles.gameInfo}>{session.selectedGame}</Text>
-            <Text style={styles.gameHeader}>Platform</Text>
-            <Text style={styles.gameInfo}>{session.selectedPlatform}</Text>
-            <Text style={styles.gameHeader}>Description</Text>
-            <Text style={styles.gameInfo}>{session.gameDescription}</Text>
+          <View key={index}>
+            <TouchableOpacity key={index} style={styles.gameEntry} onPress={() => setSelectedSession(selectedSession === index ? null : index)}>
+              <View style={styles.info}>
+                <Text style={styles.timestamp}>{session.timestamp}</Text>
+                <Text style={styles.username}>{session.username}</Text>
+              </View>
+              <Text style={styles.gameHeader}>Game</Text>
+              <Text style={styles.gameInfo}>{session.selectedGame}</Text>
+              <Text style={styles.gameHeader}>Platform</Text>
+              <Text style={styles.gameInfo}>{session.selectedPlatform}</Text>
+              {selectedSession === index && (
+                <>
+                  <Text style={styles.gameHeader}>Description</Text>
+                  <Text style={styles.gameInfo}>{session.gameDescription}</Text>
+                </>
+              )}
+            </TouchableOpacity>
+            <View style={styles.divider}></View>
           </View>
-          
         ))}
-        
       </ScrollView>
+
     </SafeAreaView>
   );
 }
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
   pageSubHeader: {
     color: 'grey',
     fontSize: 14,
-    marginBottom: 40,
+    marginBottom: 20,
     textAlign: 'center',
     fontWeight: 'bold'
   },
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 13,
   },
-  
+
   timestamp: {
     color: 'white',
     textAlign: 'left',
@@ -179,23 +183,24 @@ const styles = StyleSheet.create({
   },
 
   gameEntry: {
-    marginBottom: 70,
-    marginTop: 30,
+    marginBottom: 50,
+    marginTop: 50,
     borderColor: 'white',
     borderWidth: 0.3,
     padding: 1,
     width: 300,
     textAlign: 'center',
     borderRadius: 10,
+    backgroundColor: '#262626'
 
   },
 
   filterContainer: {
     borderColor: 'blue',
-    marginBottom: 20,
+    marginBottom: 10,
     width: 300,
     alignItems: 'center'
-    
+
 
   },
 
@@ -209,14 +214,14 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 200,
     height: 60,
-    
+
   },
 
   pickerToggle: {
     color: 'black',
     backgroundColor: '#0088B4',
-    margin: 20,
-    marginBottom: 20,
+    marginBottom: 15,
+    marginTop: 40,
     width: 100,
     borderWidth: 1,
     borderRadius: 5,
@@ -232,6 +237,8 @@ const styles = StyleSheet.create({
   },
 
   divider: {
-    
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    marginVertical: 10,
   }
 });

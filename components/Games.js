@@ -1,29 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 
 export default function Games(props) {
 
     const [selected, setSelected] = useState("");
+    const [data, setData] = useState([]);
 
-     // Set selected state to game that user has selected
+    // Fetch data from Firestore on component mount
+    useEffect(() => {
+        const fetchData = async () => {
+            const db = getFirestore();
+            const docRef = doc(db, "gameList", "games");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const dataList = Object.keys(docSnap.data()).map((games, index) => ({
+                    key: `${index + 1}`,
+                    value: games,
+                }));
+                setData(dataList);
+            } else {
+                console.log("No such document!");
+            }
+        };
+        fetchData();
+    }, []);
 
+    // Set selected state
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedGame(value);
     };
 
-    // Games available
-
-    const data = [
-        { key: '1', value: 'Call of Duty: Warzone 2.0' },
-        { key: '2', value: 'Minecraft' },
-        { key: '3', value: 'NHL23' },
-        { key: '4', value: 'Overwatch 2' },
-        { key: '5', value: 'Apex Legends' },
-        { key: '6', value: 'CS: GO' },
-        { key: '7', value: 'Among Us' },
-    ]
     return (
         <View style={styles.container}>
             <Text style={styles.font}>Game</Text>

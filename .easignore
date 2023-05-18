@@ -1,5 +1,6 @@
 # Config files
-!components/firebaseconfig.js
+!config/firebaseconfig.js
+!config/apiconfig.js
 
 # Blacklist file
-!components/blacklist.js
+!config/blacklist.js

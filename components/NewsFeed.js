@@ -1,31 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, TouchableHighlight, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ApiConfig from '../config/apiconfig';
 
 const NewsFeed = () => {
     const [newsData, setNewsData] = useState(null);
     const [showDescription, setShowDescription] = useState({});
+    const [isLoading, setIsLoading] = useState(true); // Track loading state
 
-    // Call fetch data when component is loaded 
-    
     useEffect(() => {
         fetchData();
     }, []);
 
-    // Fetch news data from API
-
     const fetchData = async () => {
         try {
-            const options = {
-                method: 'GET',
-                url: 'https://videogames-news2.p.rapidapi.com/videogames_news/recent',
-                headers: {
-                    'X-RapidAPI-Key': '4c634aa9cbmsh0ded2c6aa69d197p1739f5jsn7672212113fc',
-                    'X-RapidAPI-Host': 'videogames-news2.p.rapidapi.com'
-                }
-            };
-
+            const options = ApiConfig.options;
             const response = await axios.request(options);
             const initialShowDescription = {};
             response.data.forEach((newsItem) => {
@@ -33,12 +23,12 @@ const NewsFeed = () => {
             });
             setShowDescription(initialShowDescription);
             setNewsData(response.data);
+            setIsLoading(false); // Set loading state to false after data is fetched
         } catch (error) {
             console.error(error);
+            setIsLoading(false); // Set loading state to false in case of error
         }
     };
-
-    // Set description to show or hidden
 
     const toggleDescription = (title) => {
         setShowDescription((prevState) => ({
@@ -47,14 +37,9 @@ const NewsFeed = () => {
         }));
     };
 
-
-    // Open link to article 
-
     const openLink = (url) => {
         Linking.openURL(url);
     };
-
-    // Format date 
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -63,12 +48,18 @@ const NewsFeed = () => {
         return `${formattedDate} ${formattedTime}`;
     };
 
+
     return (
         <SafeAreaView style={styles.container} >
             <Text style={styles.pageHeader}>News Feed 📣</Text>
             <Text style={styles.pageSubHeader}>Recent News From The Gaming Community</Text>
             <ScrollView contentContainerStyle={styles.container}>
-                {newsData ? (
+                {isLoading ? ( // Display loading animation if still loading
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size="large" color="#0088B4" />
+                        <Text style={styles.loadingText}>Loading news data...</Text>
+                    </View>
+                ) : newsData ? (
                     newsData.map((newsItem, index) => (
                         <TouchableOpacity
                             key={index}

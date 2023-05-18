@@ -17,7 +17,10 @@ web-build/
 .metro-health-check*
 
 # Config files
-components/firebaseconfig.js
+config/firebaseconfig.js
 
 # Blacklist file
-components/blacklist.js
+config/blacklist.js
+
+# Api config file
+config/apiconfig.js

@@ -1,12 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StatusBar } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import GameSessions from './components/GameSessions';
 import CreateSession from './components/CreateSession';
 import NewsFeed from './components/NewsFeed';
+import games from './components/GameList';
+import platforms from './components/PlatformList';
+
 
 
 // Navigation
@@ -18,7 +21,7 @@ const Tab = createBottomTabNavigator();
 function GameSessionsScreen() {
   return (
     <View style={styles.container}>
-      <GameSessions></GameSessions>
+      <GameSessions games={games} platforms={platforms}></GameSessions>
     </View>
   );
 }
@@ -46,6 +49,7 @@ function NewsFeedScreen() {
 export default function App() {
   return (
     <View style={{ flex: 1 }}>
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
       <NavigationContainer>
         <Tab.Navigator
 

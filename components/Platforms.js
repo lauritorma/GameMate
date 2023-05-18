@@ -1,31 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 
 export default function Platforms(props) {
 
     const [selected, setSelected] = useState("");
+    const [data, setData] = useState([]);
 
-    // Set selected state to platform that user has selected
-    
+    // Fetch data from Firestore on component mount
+    useEffect(() => {
+        const fetchData = async () => {
+            const db = getFirestore();
+            const docRef = doc(db, "platformList", "platforms");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const dataList = Object.keys(docSnap.data()).map((platforms, index) => ({
+                    key: `${index + 1}`,
+                    value: platforms,
+                }));
+                setData(dataList);
+            } else {
+                console.log("No such document!");
+            }
+        };
+        fetchData();
+    }, []);
+
+    // Set selected state
     const handleSelect = (value) => {
         setSelected(value);
         props.setSelectedPlatform(value);
     };
-
-    // Platforms available 
-
-    const data = [
-        { key: '1', value: 'Playstation 5' },
-        { key: '2', value: 'Playstation 4' },
-        { key: '3', value: 'Xbox Series X/S' },
-        { key: '4', value: 'Xbox One' },
-        { key: '5', value: 'Nintendo Switch' },
-        { key: '6', value: 'PC' },
-        { key: '7', value: 'Mobile' },
-        { key: '8', value: 'Other' },
-    ]
-
     return (
         <View style={styles.container} >
             <Text style={styles.font}>Platform</Text>

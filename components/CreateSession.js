@@ -4,9 +4,9 @@ import Platforms from './Platforms';
 import Games from './Games';
 import SessionDescription from './SessionDescription';
 import { getDatabase, push, ref } from 'firebase/database';
-import firebaseConfig from './firebaseconfig';
+import firebaseConfig from '../config/firebaseconfig';
 import { initializeApp } from "firebase/app";
-import blacklist from './blacklist';
+import blacklist from '../config/blacklist';
 import { TextInput } from 'react-native-gesture-handler';
 
 // Initialize firebase 
@@ -29,7 +29,7 @@ export default function CreateSession() {
         if (selectedPlatform === '' || selectedGame === '' || gameDescription === '' || username === '') {
             Alert.alert('Please fill all fields');
         } else if (filterText(gameDescription)) {
-            Alert.alert('Warning', 'Your description contains blacklisted words.');
+            Alert.alert('Warning', 'Your description contains blacklisted words. \nBe nice!');
         } else if (filterText(username)) {
             Alert.alert('Warning', 'Your username contains blacklisted words.');
         } else {
