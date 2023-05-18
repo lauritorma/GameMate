@@ -1,109 +1,122 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, TouchableHighlight, ActivityIndicator, ImageBackground, RefreshControl } from 'react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ApiConfig from '../config/apiconfig';
 
 const NewsFeed = () => {
-    const [newsData, setNewsData] = useState(null);
-    const [showDescription, setShowDescription] = useState({});
-    const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [newsData, setNewsData] = useState(null);
+  const [showDescription, setShowDescription] = useState({});
+  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [isRefreshing, setIsRefreshing] = useState(false); // Track refreshing state
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    const fetchData = async () => {
-        try {
-            const options = ApiConfig.options;
-            const response = await axios.request(options);
-            const initialShowDescription = {};
-            response.data.forEach((newsItem) => {
-                initialShowDescription[newsItem.title] = false;
-            });
-            setShowDescription(initialShowDescription);
-            setNewsData(response.data);
-            setIsLoading(false); // Set loading state to false after data is fetched
-        } catch (error) {
-            console.error(error);
-            setIsLoading(false); // Set loading state to false in case of error
-        }
-    };
+  const fetchData = async () => {
+    try {
+      const options = ApiConfig.options;
+      const response = await axios.request(options);
+      const initialShowDescription = {};
+      response.data.forEach((newsItem) => {
+        initialShowDescription[newsItem.title] = false;
+      });
+      setShowDescription(initialShowDescription);
+      setNewsData(response.data);
+      setIsLoading(false); // Set loading state to false after data is fetched
+      setIsRefreshing(false); // Set refreshing state to false after data is fetched
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false); // Set loading state to false in case of error
+      setIsRefreshing(false); // Set refreshing state to false in case of error
+    }
+  };
 
-    const toggleDescription = (title) => {
-        setShowDescription((prevState) => ({
-            ...prevState,
-            [title]: !prevState[title]
-        }));
-    };
+  const toggleDescription = (title) => {
+    setShowDescription((prevState) => ({
+      ...prevState,
+      [title]: !prevState[title]
+    }));
+  };
 
-    const openLink = (url) => {
-        Linking.openURL(url);
-    };
+  const openLink = (url) => {
+    Linking.openURL(url);
+  };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const formattedDate = date.toLocaleDateString();
-        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        return `${formattedDate} ${formattedTime}`;
-    };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString();
+    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `${formattedDate} ${formattedTime}`;
+  };
 
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    fetchData();
+  };
 
-    return (
-        <SafeAreaView style={styles.container} >
-            <Text style={styles.pageHeader}>News Feed 📣</Text>
-            <Text style={styles.pageSubHeader}>Recent News From The Gaming Community</Text>
-            <ScrollView contentContainerStyle={styles.container}>
-                {isLoading ? ( // Display loading animation if still loading
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#0088B4" />
-                        <Text style={styles.loadingText}>Loading news data...</Text>
-                    </View>
-                ) : newsData ? (
-                    newsData.map((newsItem, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.newsItemContainer}
-                            onPress={() => toggleDescription(newsItem.title)}
-                        >
-                            <Text style={styles.newsHeader}>{newsItem.title}</Text>
-                            <Text style={styles.newsDate}> {formatDate(newsItem.date)}</Text>
-                            {showDescription[newsItem.title] && (
-                                <>
-                                    <Text style={styles.newsDescription}>{newsItem.description}</Text>
-                                    <TouchableHighlight
-                                        style={styles.coolButton}
-                                        underlayColor="#2f7cba"
-                                        onPress={() => openLink(newsItem.link)}
-                                    >
-                                        <Text style={styles.buttonText}>Open Link</Text>
-                                    </TouchableHighlight>
-                                </>
-                            )}
-                            <Image source={{ uri: newsItem.image }} style={styles.image} />
-                        </TouchableOpacity>
-                    ))
-                ) : (
-                    <Text>Loading news data...</Text>
-                )}
-            </ScrollView>
-        </SafeAreaView>
-    );
+  return (
+    <ImageBackground
+      source={require('../assets/GameMateBackground.jpg')}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <Text style={styles.pageHeader}>News Feed 📣</Text>
+      <Text style={styles.pageSubHeader}>Recent News From The Gaming Community</Text>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
+      >
+        {isLoading ? ( // Display loading animation if still loading
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0088B4" />
+            <Text style={styles.loadingText}>Loading news data...</Text>
+          </View>
+        ) : newsData ? (
+          newsData.map((newsItem, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.newsItemContainer}
+              onPress={() => toggleDescription(newsItem.title)}
+            >
+              <Text style={styles.newsHeader}>{newsItem.title}</Text>
+              <Text style={styles.newsDate}> {formatDate(newsItem.date)}</Text>
+              {showDescription[newsItem.title] && (
+                <>
+                  <Text style={styles.newsDescription}>{newsItem.description}</Text>
+                  <TouchableHighlight
+                    style={styles.coolButton}
+                    underlayColor="#2f7cba"
+                    onPress={() => openLink(newsItem.link)}
+                  >
+                    <Text style={styles.buttonText}>Open Link</Text>
+                  </TouchableHighlight>
+                </>
+              )}
+              <Image source={{ uri: newsItem.image }} style={styles.image} />
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text>Loading news data...</Text>
+        )}
+      </ScrollView>
+    </ImageBackground>
+  );
 };
 
-
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
-        alignItems: 'center'
-    },
+  container: {
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    alignItems: 'center'
+  },
 
     pageHeader: {
         color: 'white',
-        fontSize: 27,
-        marginBottom: 10,
+        fontSize: 30,
+        marginBottom: 5,
+        marginTop: 35,
         textAlign: 'center',
         fontWeight: 'bold'
     },
@@ -117,8 +130,8 @@ const styles = StyleSheet.create({
     },
 
     newsItemContainer: {
-        marginBottom: 20,
-        marginTop: 20,
+        marginBottom: 30,
+        marginTop: 10,
         borderColor: 'white',
         borderWidth: 1,
         borderRadius: 10,
@@ -126,6 +139,7 @@ const styles = StyleSheet.create({
         width: 300,
         alignItems: 'flex-start',
         textAlign: 'left',
+        backgroundColor: 'black'
     },
     image: {
         width: 200,

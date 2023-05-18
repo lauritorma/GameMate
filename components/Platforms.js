@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         textAlign: 'center',
-        backgroundColor: 'black',
         width: 250,
         marginTop: 0
     },

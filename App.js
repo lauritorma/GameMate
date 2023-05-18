@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import GameSessions from './components/GameSessions';
+import GameSessions from './components/gamesessions';
 import CreateSession from './components/CreateSession';
 import NewsFeed from './components/NewsFeed';
 import games from './components/GameList';

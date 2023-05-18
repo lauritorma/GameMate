@@ -38,6 +38,7 @@ export default function Games(props) {
             <Text style={styles.font}>Game</Text>
             <SelectList
                 setSelected={handleSelect}
+                
                 data={data}
                 save="value"
                 style={styles.dropdown}
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         textAlign: 'center',
-        backgroundColor: 'black',
+      
         width: 250
     },
 

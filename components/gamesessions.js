@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -49,78 +49,84 @@ export default function GameSessions({ games, platforms }) {
     (session) =>
       (!selectedGame || session.selectedGame === selectedGame) &&
       (!selectedPlatform || session.selectedPlatform === selectedPlatform)
-
   );
 
-
-
   return (
-    <SafeAreaView style={styles.container} >
-      <Text style={styles.pageHeader}>Game 🎮 Mate</Text>
-      <Text style={styles.pageSubHeader}>Never Game Alone!</Text>
-      <TouchableOpacity
-        style={styles.pickerToggle}
-        onPress={() => setShowPickers(!showPickers)}
-      >
-        <Text style={styles.pickerToggleText}>{showPickers ? 'Hide Filters' : 'Show Filters'}</Text>
-      </TouchableOpacity>
-      {showPickers && (
-        <View style={styles.filterContainer} >
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedGame}
-            onValueChange={(itemValue) => setSelectedGame(itemValue)}
-          >
-            <Picker.Item label='All Games' value={null} />
-            {games && games.map((game, index) => <Picker.Item key={index} label={game} value={game} />)}
-          </Picker>
-          <View style={styles.divider}></View>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedPlatform}
-            onValueChange={(itemValue) => setSelectedPlatform(itemValue)}
-          >
-            <Picker.Item label='All Platforms' value={null} />
-            {platforms && platforms.map((platform, index) => <Picker.Item key={index} label={platform} value={platform} />)}
-          </Picker>
-        </View>
-      )}
-
-      <ScrollView>
-        {filteredGameSessions.map((session, index) => (
-          <View key={index}>
-            <TouchableOpacity key={index} style={styles.gameEntry} onPress={() => setSelectedSession(selectedSession === index ? null : index)}>
-              <View style={styles.info}>
-                <Text style={styles.timestamp}>{session.timestamp}</Text>
-                <Text style={styles.username}>{session.username}</Text>
-              </View>
-              <Text style={styles.gameHeader}>Game</Text>
-              <Text style={styles.gameInfo}>{session.selectedGame}</Text>
-              <Text style={styles.gameHeader}>Platform</Text>
-              <Text style={styles.gameInfo}>{session.selectedPlatform}</Text>
-              {selectedSession === index && (
-                <>
-                  <Text style={styles.gameHeader}>Description</Text>
-                  <Text style={styles.gameInfo}>{session.gameDescription}</Text>
-                </>
-              )}
-            </TouchableOpacity>
+    <ImageBackground
+      source={require('../assets/GameMateBackground.jpg')}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <Text style={styles.pageHeader}>Game 🎮 Mate</Text>
+        <Text style={styles.pageSubHeader}>Never Game Alone!</Text>
+        <TouchableOpacity
+          style={styles.pickerToggle}
+          onPress={() => setShowPickers(!showPickers)}
+        >
+          <Text style={styles.pickerToggleText}>{showPickers ? 'Hide Filters' : 'Show Filters'}</Text>
+        </TouchableOpacity>
+        {showPickers && (
+          <View style={styles.filterContainer} >
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedGame}
+              onValueChange={(itemValue) => setSelectedGame(itemValue)}
+            >
+              <Picker.Item label='All Games' value={null} />
+              {games && games.map((game, index) => <Picker.Item key={index} label={game} value={game} />)}
+            </Picker>
             <View style={styles.divider}></View>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedPlatform}
+              onValueChange={(itemValue) => setSelectedPlatform(itemValue)}
+            >
+              <Picker.Item label='All Platforms' value={null} />
+              {platforms && platforms.map((platform, index) => <Picker.Item key={index} label={platform} value={platform} />)}
+            </Picker>
           </View>
-        ))}
-      </ScrollView>
-
-    </SafeAreaView>
+          
+        )}
+    
+        <ScrollView>
+          {filteredGameSessions.map((session, index) => (
+            <View key={index}>
+               <View style={styles.info}>
+                  <Text style={styles.timestamp}>{session.timestamp}</Text>
+                  <Text style={styles.username}>{session.username}</Text>
+                </View>
+              <TouchableOpacity key={index} style={styles.gameEntry} onPress={() => setSelectedSession(selectedSession === index ? null : index)}>
+                <Text style={styles.gameHeader}>Game</Text>
+                <Text style={styles.gameInfo}>{session.selectedGame}</Text>
+                <Text style={styles.gameHeader}>Platform</Text>
+                <Text style={styles.gameInfo}>{session.selectedPlatform}</Text>
+                {selectedSession === index && (
+                  <>
+                    <Text style={styles.gameHeader}>Description</Text>
+                    <Text style={styles.gameInfo}>{session.gameDescription}</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+              <View style={styles.divider}></View>
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'black',
+    paddingVertical: 20,
+    paddingHorizontal: 30,
     alignItems: 'center'
+},
+  overlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   font: {
@@ -131,10 +137,11 @@ const styles = StyleSheet.create({
 
   pageHeader: {
     color: 'white',
-    fontSize: 30,
-    marginBottom: 10,
-    textAlign: 'center',
-    fontWeight: 'bold'
+        fontSize: 30,
+        marginBottom: 0,
+        marginTop:20,
+        textAlign: 'center',
+        fontWeight: 'bold',
   },
 
   pageSubHeader: {
@@ -165,7 +172,7 @@ const styles = StyleSheet.create({
 
   info: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-between',
   },
 
   username: {
@@ -173,6 +180,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     margin: 10,
     fontSize: 13,
+    fontWeight: 'bold'
   },
 
   timestamp: {
@@ -180,11 +188,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     margin: 10,
     fontSize: 13,
+    fontWeight: 'bold'
   },
 
   gameEntry: {
-    marginBottom: 50,
-    marginTop: 50,
+    marginBottom: 30,
+    marginTop: 10,
     borderColor: 'white',
     borderWidth: 0.3,
     padding: 1,
@@ -220,8 +229,8 @@ const styles = StyleSheet.create({
   pickerToggle: {
     color: 'black',
     backgroundColor: '#0088B4',
-    marginBottom: 15,
-    marginTop: 40,
+    marginBottom: 40,
+    marginTop: 30,
     width: 100,
     borderWidth: 1,
     borderRadius: 5,

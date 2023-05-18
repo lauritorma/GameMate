@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Button, KeyboardAvoidingView, Alert, Animated } from 'react-native';
+import { View, Text, StyleSheet, Button, KeyboardAvoidingView, Alert, Animated, ImageBackground } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Platforms from './Platforms';
 import Games from './Games';
 import SessionDescription from './SessionDescription';
@@ -82,40 +83,55 @@ export default function CreateSession() {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="position">
-            <Text style={styles.pageHeader}>Create Session</Text>
-            <View style={styles.creation}>
-                <Games selectedGame={selectedGame} setSelectedGame={setSelectedGame} />
-                <Platforms selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} />
-                <SessionDescription gameDescription={gameDescription} setGameDescription={setGameDescription} />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder='Username'
-                    maxLength={50}
-                    onChangeText={setUsername}
-                ></TextInput>
-                <Animated.View style={[styles.buttonContainer, { transform: [{ scale: scaleValue }] }]}>
-                    <Button
-                        onPress={() => {
-                            startButtonAnimation();
-                            handleButtonPress();
-                        }}
-                        title='create'
-                        color='#0088B4'
-                        style={styles.button}
-                    />
-                </Animated.View>
-            </View>
-        </KeyboardAvoidingView>
+        <ImageBackground
+            source={require('../assets/GameMateBackground.jpg')}
+            style={styles.container}
+            resizeMode="cover"
+        >
+            <SafeAreaView style={styles.overlay}>
+                <KeyboardAvoidingView style={styles.container} behavior="position">
+                    <Text style={styles.pageHeader}>Create Session</Text>
+                    <View style={styles.creation}>
+                        <Games selectedGame={selectedGame} setSelectedGame={setSelectedGame} resetValue={selectedGame} />
+                        <Platforms selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} resetValue={selectedPlatform} />
+                        <SessionDescription gameDescription={gameDescription} setGameDescription={setGameDescription} value={gameDescription} />
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder='Username'
+                            maxLength={50}
+                            onChangeText={setUsername}
+                            value={username}
+                        ></TextInput>
+                        <Animated.View style={[styles.buttonContainer, { transform: [{ scale: scaleValue }] }]}>
+                            <Button
+                                onPress={() => {
+                                    startButtonAnimation();
+                                    handleButtonPress();
+                                }}
+                                title='create'
+                                color='#0088B4'
+                                style={styles.button}
+                            />
+                        </Animated.View>
+                    </View>
+                </KeyboardAvoidingView>
+            </SafeAreaView>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        alignItems: 'center'
+    },
+
+    overlay: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'black',
-    },
+        justifyContent: 'center',
+      },
 
     font: {
         color: 'white',
@@ -131,15 +147,13 @@ const styles = StyleSheet.create({
 
     pageHeader: {
         color: 'white',
-        fontSize: 25,
-        marginBottom: 0,
-        marginTop: 40,
+        fontSize: 30,
         textAlign: 'center',
         fontWeight: 'bold',
     },
 
     creation: {
-        backgroundColor: 'black',
+
         borderColor: 'white',
         width: '100%',
         padding: 10,
